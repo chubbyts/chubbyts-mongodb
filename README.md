@@ -24,13 +24,14 @@ Mongodb helper(s).
 ## Requirements
 
  * node: 14
+ * [mongodb][2]: ^4.9.1
 
 ## Installation
 
 Through [NPM](https://www.npmjs.com) as [@chubbyts/chubbyts-mongodb][1].
 
 ```ts
-npm i @chubbyts/chubbyts-mongodb@^1.0.0
+npm i @chubbyts/chubbyts-mongodb@^1.0.1
 ```
 
 ## Usage
@@ -59,3 +60,4 @@ await upsertIndexes(mongoClient, {
 Dominik Zogg 2022
 
 [1]: https://www.npmjs.com/package/@chubbyts/chubbyts-mongodb
+[2]: https://www.npmjs.com/package/mongodb
