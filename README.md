@@ -57,7 +57,7 @@ await upsertIndexes(mongoClient, {
 
 ## Copyright
 
-Dominik Zogg 2022
+2023 Dominik Zogg
 
 [1]: https://www.npmjs.com/package/@chubbyts/chubbyts-mongodb
 [2]: https://www.npmjs.com/package/mongodb
