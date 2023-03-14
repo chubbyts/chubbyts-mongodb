@@ -1,6 +1,6 @@
 {
   "name": "@chubbyts/chubbyts-mongodb",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Mongodb helper(s).",
   "keywords": [
     "chubbyts",
@@ -43,7 +43,7 @@
     "node": ">=14"
   },
   "dependencies": {
-    "mongodb": "^4.9.1"
+    "mongodb": "^5.1.0"
   },
   "devDependencies": {
     "@stryker-mutator/core": "^6.2.2",
