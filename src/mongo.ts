@@ -1,4 +1,4 @@
-import { CreateIndexesOptions, IndexSpecification, MongoClient, MongoServerError } from 'mongodb';
+import type { CreateIndexesOptions, IndexSpecification, MongoClient, MongoServerError } from 'mongodb';
 
 export type IndexesByCollection = {
   [collectionName: string]: Array<CreateIndexesOptions & { key: IndexSpecification; name: string }>;

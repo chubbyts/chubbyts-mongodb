@@ -1,5 +1,8 @@
-import { Collection, CreateIndexesOptions, Db, IndexSpecification, MongoClient, MongoServerError } from 'mongodb';
-import { IndexesByCollection, upsertIndexes } from '../src/mongo';
+import type { Collection, CreateIndexesOptions, Db, IndexSpecification, MongoClient } from 'mongodb';
+import { MongoServerError } from 'mongodb';
+import { useObjectMock } from '@chubbyts/chubbyts-function-mock/dist/object-mock';
+import type { IndexesByCollection } from '../src/mongo';
+import { upsertIndexes } from '../src/mongo';
 
 describe('upsertIndexes', () => {
   test('create', async () => {
@@ -13,26 +16,23 @@ describe('upsertIndexes', () => {
       ],
     };
 
-    const createIndex = jest.fn(
-      async (givenIndexSpec: IndexSpecification, givenOptions: CreateIndexesOptions): Promise<string> => {
-        const { key, ...options } = indexes.pet[0];
+    const [collection, collectionMocks] = useObjectMock<Collection>([
+      {
+        name: 'createIndex',
+        callback: async (givenIndexSpec: IndexSpecification, givenOptions: CreateIndexesOptions): Promise<string> => {
+          const { key, ...options } = indexes.pet[0];
 
-        expect(givenIndexSpec).toEqual(key);
-        expect(givenOptions).toEqual(options);
+          expect(givenIndexSpec).toEqual(key);
+          expect(givenOptions).toEqual(options);
 
-        return givenOptions.name as string;
+          return givenOptions.name as string;
+        },
       },
-    );
+    ]);
 
-    const collection = jest.fn((collectionName: string): Collection => {
-      expect(collectionName).toBe('pet');
+    const [db, dbMocks] = useObjectMock<Db>([{ name: 'collection', parameters: ['pet'], return: collection }]);
 
-      return { createIndex } as unknown as Collection;
-    });
-
-    const db = jest.fn(() => ({ collection } as unknown as Db));
-
-    const mongoClient: MongoClient = { db } as unknown as MongoClient;
+    const [mongoClient, mongoClientMocks] = useObjectMock<MongoClient>([{ name: 'db', parameters: [], return: db }]);
 
     await upsertIndexes(mongoClient, {
       pet: [
@@ -44,9 +44,9 @@ describe('upsertIndexes', () => {
       ],
     });
 
-    expect(createIndex).toHaveBeenCalledTimes(1);
-    expect(collection).toHaveBeenCalledTimes(1);
-    expect(db).toHaveBeenCalledTimes(1);
+    expect(collectionMocks.length).toBe(0);
+    expect(dbMocks.length).toBe(0);
+    expect(mongoClientMocks.length).toBe(0);
   });
 
   test('update', async () => {
@@ -60,43 +60,49 @@ describe('upsertIndexes', () => {
       ],
     };
 
-    let counter = 0;
+    const [collection, collectionMocks] = useObjectMock<Collection>([
+      {
+        name: 'createIndex',
+        callback: async (givenIndexSpec: IndexSpecification, givenOptions: CreateIndexesOptions): Promise<string> => {
+          const { key, ...options } = indexes.pet[0];
 
-    const createIndex = jest.fn(
-      async (givenIndexSpec: IndexSpecification, givenOptions: CreateIndexesOptions): Promise<string> => {
-        const { key, ...options } = indexes.pet[0];
+          expect(givenIndexSpec).toEqual(key);
+          expect(givenOptions).toEqual(options);
 
-        expect(givenIndexSpec).toEqual(key);
-        expect(givenOptions).toEqual(options);
-
-        counter++;
-
-        if (counter === 1) {
           const error = new MongoServerError({ message: 'index already exists' });
+
+          // eslint-disable-next-line functional/immutable-data
           error.codeName = 'IndexOptionsConflict';
 
           throw error;
-        }
-
-        return givenOptions.name as string;
+        },
       },
-    );
+      {
+        name: 'dropIndex',
+        callback: async (givenIndexName: string): Promise<{ [key: string]: unknown }> => {
+          const { name } = indexes.pet[0];
 
-    const dropIndex = jest.fn(async (givenIndexName: string): Promise<void> => {
-      const { name } = indexes.pet[0];
+          expect(givenIndexName).toEqual(name);
 
-      expect(givenIndexName).toEqual(name);
-    });
+          return {};
+        },
+      },
+      {
+        name: 'createIndex',
+        callback: async (givenIndexSpec: IndexSpecification, givenOptions: CreateIndexesOptions): Promise<string> => {
+          const { key, ...options } = indexes.pet[0];
 
-    const collection = jest.fn((collectionName: string): Collection => {
-      expect(collectionName).toBe('pet');
+          expect(givenIndexSpec).toEqual(key);
+          expect(givenOptions).toEqual(options);
 
-      return { createIndex, dropIndex } as unknown as Collection;
-    });
+          return givenOptions.name as string;
+        },
+      },
+    ]);
 
-    const db = jest.fn(() => ({ collection } as unknown as Db));
+    const [db, dbMocks] = useObjectMock<Db>([{ name: 'collection', parameters: ['pet'], return: collection }]);
 
-    const mongoClient: MongoClient = { db } as unknown as MongoClient;
+    const [mongoClient, mongoClientMocks] = useObjectMock<MongoClient>([{ name: 'db', parameters: [], return: db }]);
 
     await upsertIndexes(mongoClient, {
       pet: [
@@ -108,9 +114,9 @@ describe('upsertIndexes', () => {
       ],
     });
 
-    expect(createIndex).toHaveBeenCalledTimes(2);
-    expect(collection).toHaveBeenCalledTimes(1);
-    expect(db).toHaveBeenCalledTimes(1);
+    expect(collectionMocks.length).toBe(0);
+    expect(dbMocks.length).toBe(0);
+    expect(mongoClientMocks.length).toBe(0);
   });
 
   test('unknown error', async () => {
@@ -124,26 +130,23 @@ describe('upsertIndexes', () => {
       ],
     };
 
-    const createIndex = jest.fn(
-      async (givenIndexSpec: IndexSpecification, givenOptions: CreateIndexesOptions): Promise<string> => {
-        const { key, ...options } = indexes.pet[0];
+    const [collection, collectionMocks] = useObjectMock<Collection>([
+      {
+        name: 'createIndex',
+        callback: async (givenIndexSpec: IndexSpecification, givenOptions: CreateIndexesOptions): Promise<string> => {
+          const { key, ...options } = indexes.pet[0];
 
-        expect(givenIndexSpec).toEqual(key);
-        expect(givenOptions).toEqual(options);
+          expect(givenIndexSpec).toEqual(key);
+          expect(givenOptions).toEqual(options);
 
-        throw new Error('unknown error');
+          throw new Error('unknown error');
+        },
       },
-    );
+    ]);
 
-    const collection = jest.fn((collectionName: string): Collection => {
-      expect(collectionName).toBe('pet');
+    const [db, dbMocks] = useObjectMock<Db>([{ name: 'collection', parameters: ['pet'], return: collection }]);
 
-      return { createIndex } as unknown as Collection;
-    });
-
-    const db = jest.fn(() => ({ collection } as unknown as Db));
-
-    const mongoClient: MongoClient = { db } as unknown as MongoClient;
+    const [mongoClient, mongoClientMocks] = useObjectMock<MongoClient>([{ name: 'db', parameters: [], return: db }]);
 
     try {
       await upsertIndexes(mongoClient, {
@@ -157,11 +160,11 @@ describe('upsertIndexes', () => {
       });
       fail('Expect error');
     } catch (e) {
-      expect(e).toMatchInlineSnapshot(`[Error: unknown error]`);
+      expect(e).toMatchInlineSnapshot('[Error: unknown error]');
     }
 
-    expect(createIndex).toHaveBeenCalledTimes(1);
-    expect(collection).toHaveBeenCalledTimes(1);
-    expect(db).toHaveBeenCalledTimes(1);
+    expect(collectionMocks.length).toBe(0);
+    expect(dbMocks.length).toBe(0);
+    expect(mongoClientMocks.length).toBe(0);
   });
 });
