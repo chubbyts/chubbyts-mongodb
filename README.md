@@ -31,7 +31,7 @@ Mongodb helper(s).
 Through [NPM](https://www.npmjs.com) as [@chubbyts/chubbyts-mongodb][1].
 
 ```ts
-npm i @chubbyts/chubbyts-mongodb@^1.2.1
+npm i @chubbyts/chubbyts-mongodb@^1.3.0
 ```
 
 ## Usage
