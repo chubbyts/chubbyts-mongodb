@@ -1,6 +1,7 @@
 import type { Collection, CreateIndexesOptions, Db, IndexSpecification, MongoClient } from 'mongodb';
 import { MongoServerError } from 'mongodb';
 import { useObjectMock } from '@chubbyts/chubbyts-function-mock/dist/object-mock';
+import { describe, test, expect } from 'vitest';
 import type { IndexesByCollection } from '../src/mongo';
 import { upsertIndexes } from '../src/mongo';
 
@@ -158,7 +159,7 @@ describe('upsertIndexes', () => {
           },
         ],
       });
-      fail('Expect error');
+      throw new Error('Expect error');
     } catch (e) {
       expect(e).toMatchInlineSnapshot('[Error: unknown error]');
     }
