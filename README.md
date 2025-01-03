@@ -23,15 +23,15 @@ Mongodb helper(s).
 
 ## Requirements
 
- * node: 16
- * [mongodb][2]: ^6.7.0
+ * node: 18
+ * [mongodb][2]: ^6.12.0
 
 ## Installation
 
 Through [NPM](https://www.npmjs.com) as [@chubbyts/chubbyts-mongodb][1].
 
 ```ts
-npm i @chubbyts/chubbyts-mongodb@^1.4.0
+npm i @chubbyts/chubbyts-mongodb@^1.5.0
 ```
 
 ## Usage
@@ -57,7 +57,7 @@ await upsertIndexes(mongoClient, {
 
 ## Copyright
 
-2024 Dominik Zogg
+2025 Dominik Zogg
 
 [1]: https://www.npmjs.com/package/@chubbyts/chubbyts-mongodb
 [2]: https://www.npmjs.com/package/mongodb
