@@ -24,7 +24,7 @@ Mongodb helper(s).
 ## Requirements
 
  * node: 18
- * [mongodb][2]: ^6.17.0
+ * [mongodb][2]: ^6.19.0
 
 ## Installation
 
