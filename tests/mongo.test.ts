@@ -45,9 +45,9 @@ describe('upsertIndexes', () => {
       ],
     });
 
-    expect(collectionMocks.length).toBe(0);
-    expect(dbMocks.length).toBe(0);
-    expect(mongoClientMocks.length).toBe(0);
+    expect(collectionMocks).toHaveLength(0);
+    expect(dbMocks).toHaveLength(0);
+    expect(mongoClientMocks).toHaveLength(0);
   });
 
   test('update', async () => {
@@ -115,9 +115,9 @@ describe('upsertIndexes', () => {
       ],
     });
 
-    expect(collectionMocks.length).toBe(0);
-    expect(dbMocks.length).toBe(0);
-    expect(mongoClientMocks.length).toBe(0);
+    expect(collectionMocks).toHaveLength(0);
+    expect(dbMocks).toHaveLength(0);
+    expect(mongoClientMocks).toHaveLength(0);
   });
 
   test('unknown error', async () => {
@@ -164,8 +164,8 @@ describe('upsertIndexes', () => {
       expect(e).toMatchInlineSnapshot('[Error: unknown error]');
     }
 
-    expect(collectionMocks.length).toBe(0);
-    expect(dbMocks.length).toBe(0);
-    expect(mongoClientMocks.length).toBe(0);
+    expect(collectionMocks).toHaveLength(0);
+    expect(dbMocks).toHaveLength(0);
+    expect(mongoClientMocks).toHaveLength(0);
   });
 });
