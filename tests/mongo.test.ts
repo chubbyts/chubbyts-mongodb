@@ -72,7 +72,7 @@ describe('upsertIndexes', () => {
 
           const error = new MongoServerError({ message: 'index already exists' });
 
-          // eslint-disable-next-line functional/immutable-data
+          // oxlint-disable-next-line functional/immutable-data
           error.codeName = 'IndexOptionsConflict';
 
           throw error;

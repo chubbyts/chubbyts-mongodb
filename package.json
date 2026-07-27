@@ -16,8 +16,8 @@
     "cs-fix": "prettier --write src tests",
     "cs": "prettier --check src tests",
     "infection": "stryker run",
-    "lint-fix": "eslint src tests eslint.config.js vitest.config.ts --fix",
-    "lint": "eslint src tests",
+    "lint-fix": "oxlint --fix src tests vitest.config.ts",
+    "lint": "oxlint src tests vitest.config.ts",
     "prepare": "pnpm run build",
     "test": "vitest"
   },
@@ -44,8 +44,8 @@
     "mongodb": "^7.2.0"
   },
   "devDependencies": {
-    "@chubbyts/chubbyts-eslint": "^5.2.0",
     "@chubbyts/chubbyts-function-mock": "^2.1.1",
+    "@chubbyts/chubbyts-oxlint": "^1.0.0",
     "@stryker-mutator/core": "^9.6.1",
     "@stryker-mutator/vitest-runner": "^9.6.1",
     "@types/node": "^25.6.2",
@@ -53,6 +53,7 @@
     "prettier": "^3.8.3",
     "typescript": "^6.0.3",
     "vitest": "^4.1.5"
+    "oxlint": "^1.76.0",
   },
   "publishConfig": {
     "access": "public"
