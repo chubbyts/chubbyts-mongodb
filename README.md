@@ -24,14 +24,14 @@ Mongodb helper(s).
 ## Requirements
 
  * node: 22
- * [mongodb][2]: ^7.5.0
+ * [mongodb][2]: ^7.7.0
 
 ## Installation
 
 Through [NPM](https://www.npmjs.com) as [@chubbyts/chubbyts-mongodb][1].
 
 ```ts
-npm i @chubbyts/chubbyts-mongodb@^2.3.0
+npm i @chubbyts/chubbyts-mongodb@^2.3.1
 ```
 
 ## Usage
