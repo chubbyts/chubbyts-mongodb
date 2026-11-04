@@ -2,8 +2,8 @@ import type { Collection, CreateIndexesOptions, Db, IndexSpecification, MongoCli
 import { MongoServerError } from 'mongodb';
 import { useObjectMock } from '@chubbyts/chubbyts-function-mock/dist/object-mock';
 import { describe, test, expect } from 'vitest';
-import type { IndexesByCollection } from '../src/mongo';
-import { upsertIndexes } from '../src/mongo';
+import type { IndexesByCollection } from '../src/mongo.js';
+import { upsertIndexes } from '../src/mongo.js';
 
 describe('upsertIndexes', () => {
   test('create', async () => {
