@@ -23,23 +23,30 @@ Mongodb helper(s).
 
 ## Requirements
 
- * node: 22
- * [mongodb][2]: ^7.7.0
+ * node: >=22
+ * [mongodb][2]: ^7.8.0
 
 ## Installation
 
 Through [NPM](https://www.npmjs.com) as [@chubbyts/chubbyts-mongodb][1].
 
-```ts
-npm i @chubbyts/chubbyts-mongodb@^2.4.0
+```sh
+npm i @chubbyts/chubbyts-mongodb@^2.4.1
 ```
 
 ## Usage
 
 ### upsertIndexes
 
+Creates the given indexes per collection on the default database of the connection string. If an index with the same
+name already exists with different options, it gets dropped and created again.
+
 ```ts
-const mongoClient = await MongoClient.connect('mongodb://localhost');
+import { MongoClient } from 'mongodb';
+import { upsertIndexes } from '@chubbyts/chubbyts-mongodb/mongo';
+
+const mongoClient = await MongoClient.connect('mongodb://localhost/app');
+
 await upsertIndexes(mongoClient, {
   pet: [
     {
@@ -51,7 +58,7 @@ await upsertIndexes(mongoClient, {
       key: { name: 1 },
       name: 'pet.name',
     },
-  ]
+  ],
 });
 ```
 

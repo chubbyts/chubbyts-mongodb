@@ -15,11 +15,11 @@ export const upsertIndexes = async (
       await Promise.all(
         indexes.map(async ({ key, ...options }) => {
           try {
-            await collection.createIndex(key, options);
+            await collection.createIndex(key, options, {});
           } catch (e) {
             if ((e as MongoServerError).codeName === 'IndexOptionsConflict') {
               await collection.dropIndex(options.name);
-              await collection.createIndex(key, options);
+              await collection.createIndex(key, options, {});
             } else {
               throw e;
             }

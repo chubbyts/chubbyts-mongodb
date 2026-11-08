@@ -1,4 +1,11 @@
-import type { Collection, CreateIndexesOptions, Db, IndexSpecification, MongoClient } from 'mongodb';
+import type {
+  Collection,
+  CreateIndexOptions,
+  CreateIndexesOptions,
+  Db,
+  IndexSpecification,
+  MongoClient,
+} from 'mongodb';
 import { MongoServerError } from 'mongodb';
 import { useObjectMock } from '@chubbyts/chubbyts-function-mock/object-mock';
 import { describe, test, expect } from 'vitest';
@@ -20,11 +27,16 @@ describe('upsertIndexes', () => {
     const [collection, collectionMocks] = useObjectMock<Collection>([
       {
         name: 'createIndex',
-        callback: async (givenIndexSpec: IndexSpecification, givenOptions: CreateIndexesOptions): Promise<string> => {
+        callback: async (
+          givenIndexSpec: IndexSpecification,
+          givenOptions: CreateIndexesOptions,
+          givenCommandOptions: CreateIndexOptions,
+        ): Promise<string> => {
           const { key, ...options } = indexes.pet[0];
 
           expect(givenIndexSpec).toEqual(key);
           expect(givenOptions).toEqual(options);
+          expect(givenCommandOptions).toEqual({});
 
           return givenOptions.name as string;
         },
@@ -64,11 +76,16 @@ describe('upsertIndexes', () => {
     const [collection, collectionMocks] = useObjectMock<Collection>([
       {
         name: 'createIndex',
-        callback: async (givenIndexSpec: IndexSpecification, givenOptions: CreateIndexesOptions): Promise<string> => {
+        callback: async (
+          givenIndexSpec: IndexSpecification,
+          givenOptions: CreateIndexesOptions,
+          givenCommandOptions: CreateIndexOptions,
+        ): Promise<string> => {
           const { key, ...options } = indexes.pet[0];
 
           expect(givenIndexSpec).toEqual(key);
           expect(givenOptions).toEqual(options);
+          expect(givenCommandOptions).toEqual({});
 
           const error = new MongoServerError({ message: 'index already exists' });
 
@@ -90,11 +107,16 @@ describe('upsertIndexes', () => {
       },
       {
         name: 'createIndex',
-        callback: async (givenIndexSpec: IndexSpecification, givenOptions: CreateIndexesOptions): Promise<string> => {
+        callback: async (
+          givenIndexSpec: IndexSpecification,
+          givenOptions: CreateIndexesOptions,
+          givenCommandOptions: CreateIndexOptions,
+        ): Promise<string> => {
           const { key, ...options } = indexes.pet[0];
 
           expect(givenIndexSpec).toEqual(key);
           expect(givenOptions).toEqual(options);
+          expect(givenCommandOptions).toEqual({});
 
           return givenOptions.name as string;
         },
@@ -134,11 +156,16 @@ describe('upsertIndexes', () => {
     const [collection, collectionMocks] = useObjectMock<Collection>([
       {
         name: 'createIndex',
-        callback: async (givenIndexSpec: IndexSpecification, givenOptions: CreateIndexesOptions): Promise<string> => {
+        callback: async (
+          givenIndexSpec: IndexSpecification,
+          givenOptions: CreateIndexesOptions,
+          givenCommandOptions: CreateIndexOptions,
+        ): Promise<string> => {
           const { key, ...options } = indexes.pet[0];
 
           expect(givenIndexSpec).toEqual(key);
           expect(givenOptions).toEqual(options);
+          expect(givenCommandOptions).toEqual({});
 
           throw new Error('unknown error');
         },

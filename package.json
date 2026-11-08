@@ -1,7 +1,7 @@
 {
   "name": "@chubbyts/chubbyts-mongodb",
   "type": "module",
-  "version": "2.4.0",
+  "version": "2.4.1",
   "description": "Mongodb helper(s).",
   "keywords": [
     "chubbyts",
@@ -46,7 +46,7 @@
     "node": ">=22"
   },
   "dependencies": {
-    "mongodb": "^7.7.0"
+    "mongodb": "^7.8.0"
   },
   "devDependencies": {
     "@chubbyts/chubbyts-function-mock": "^2.4.0",
